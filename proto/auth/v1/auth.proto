@@ -8,14 +8,14 @@ service Auth {
   // Register new user in the system
   rpc Register (RegisterRequest) returns (RegisterResponse) {
     option (google.api.http) = {
-      post: "/v1/auth/register"
+      post: "api/mobile/v1/auth/register"
       body: "*"
     };
   };
   // Login user if he registered in the system
   rpc Login (LoginRequest) returns (LoginResponse) {
     option (google.api.http) = {
-      post: "/v1/auth/login"
+      post: "api/mobile/v1/auth/login"
       body: "*"
     };
   }
