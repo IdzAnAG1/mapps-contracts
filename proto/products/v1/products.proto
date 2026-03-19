@@ -1,0 +1,87 @@
+syntax = "proto3";
+
+package mapps.products.v1;
+
+import "google/api/annotations.proto";
+
+service Products {
+  rpc GetProduct (GetProductRequest) returns (GetProductResponse) {
+    option (google.api.http) = {
+      get: "/api/v1/mobile/products/{product_id}"
+    };
+  };
+  rpc ListProducts (ListProductsRequest) returns (ListProductsResponse) {
+    option (google.api.http) = {
+      get: "/api/v1/mobile/products"
+    };
+  };
+  rpc CreateProduct (CreateProductRequest) returns (CreateProductResponse) {
+    option (google.api.http) = {
+      post: "/api/v1/mobile/products"
+      body: "*"
+    };
+  };
+  rpc UpdateProduct (UpdateProductRequest) returns (UpdateProductResponse) {
+    option (google.api.http) = {
+      put: "/api/v1/mobile/products/{product_id}"
+      body: "*"
+    };
+  };
+}
+
+message Product {
+  string id = 1;
+  string name = 2;
+  string description = 3;
+  double price = 4;
+  string category = 5;
+  string virtual_image_id = 6;
+  string model_id = 7;
+}
+
+message GetProductRequest {
+  string product_id = 1;
+}
+
+message GetProductResponse {
+  Product product = 1;
+}
+
+message ListProductsRequest {
+  string category  = 1;
+  string name = 2;
+  double price = 3;
+  int32  page = 4;
+  int32  page_size = 5;
+}
+
+message ListProductsResponse {
+  repeated Product products = 1;
+}
+
+message CreateProductRequest {
+  string name = 1;
+  string description = 2;
+  double price = 3;
+  string category = 4;
+  string virtual_image_id = 5;
+  string model_id = 6;
+}
+
+message CreateProductResponse {
+  Product product = 1;
+}
+
+message UpdateProductRequest {
+  string product_id = 1;
+  string name = 2;
+  string description = 3;
+  double price = 4;
+  string category = 5;
+  string virtual_image_id = 6;
+  string model_id = 7;
+}
+
+message UpdateProductResponse {
+  Product product = 1;
+}

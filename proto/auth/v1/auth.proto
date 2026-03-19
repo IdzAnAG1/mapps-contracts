@@ -1,0 +1,45 @@
+syntax = "proto3";
+
+package mapps.auth.v1;
+
+import "google/api/annotations.proto";
+
+service Auth {
+  // Register new user in the system
+  rpc Register (RegisterRequest) returns (RegisterResponse) {
+    option (google.api.http) = {
+      post: "/api/v1/mobile/auth/register"
+      body: "*"
+    };
+  };
+  // Login user if he registered in the system
+  rpc Login (LoginRequest) returns (LoginResponse) {
+    option (google.api.http) = {
+      post: "/api/v1/mobile/auth/login"
+      body: "*"
+    };
+  };
+}
+
+
+message RegisterRequest {
+  string email = 1;
+  string password = 2;
+  string nickname = 3;
+  string username = 4;
+}
+
+message RegisterResponse {
+  string user_id = 1;
+  string token = 2;
+}
+
+message LoginRequest {
+  string email = 1;
+  string password = 2;
+}
+
+message LoginResponse{
+  string user_id = 1;
+  string token = 2;
+}

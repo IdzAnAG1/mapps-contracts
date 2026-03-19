@@ -1,0 +1,92 @@
+syntax = "proto3";
+
+package mapps.asset_manager.v1;
+
+import "google/api/annotations.proto";
+
+// Asset — текстура или изображение.
+// Базовая сущность, на которую ссылаются 3D модели.
+message Asset {
+  string id        = 1;
+  string name      = 2;
+  string url       = 3;
+  string mime_type = 4;
+  int64  size      = 5;
+}
+
+// Model3D — 3D модель.
+// Связана с Asset через thumbnail_id и texture_ids.
+message Model3D {
+  string          id           = 1;
+  string          name         = 2;
+  string          url          = 3;
+  string          format       = 4;
+  string          thumbnail_id = 5;
+  repeated string texture_ids  = 6;
+}
+
+service AssetManager {
+
+  rpc GetModelUploadURL (GetModelUploadURLRequest) returns (GetModelUploadURLResponse) {
+    option (google.api.http) = {
+      post: "/api/v1/assets/models/upload-url"
+      body: "*"
+    };
+  };
+
+  rpc GetModel (GetModelRequest) returns (GetModelResponse) {
+    option (google.api.http) = {
+      get: "/api/v1/assets/models/{model_id}"
+    };
+  };
+
+  rpc GetAssetUploadURL (GetAssetUploadURLRequest) returns (GetAssetUploadURLResponse) {
+    option (google.api.http) = {
+      post: "/api/v1/assets/textures/upload-url"
+      body: "*"
+    };
+  };
+
+  rpc GetAsset (GetAssetRequest) returns (GetAssetResponse) {
+    option (google.api.http) = {
+      get: "/api/v1/assets/textures/{asset_id}"
+    };
+  };
+}
+
+message GetModelUploadURLRequest {
+  string name      = 1;
+  string format    = 2;
+  string mime_type = 3;
+}
+
+message GetModelUploadURLResponse {
+  string upload_url = 1;
+  string model_id   = 2;
+}
+
+message GetModelRequest {
+  string model_id = 1;
+}
+
+message GetModelResponse {
+  Model3D model = 1;
+}
+
+message GetAssetUploadURLRequest {
+  string name      = 1;
+  string mime_type = 2;
+}
+
+message GetAssetUploadURLResponse {
+  string upload_url = 1;
+  string asset_id   = 2;
+}
+
+message GetAssetRequest {
+  string asset_id = 1;
+}
+
+message GetAssetResponse {
+  Asset asset = 1;
+}
